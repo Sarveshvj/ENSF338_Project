@@ -28,6 +28,27 @@ class Maxheap:
     
     def getRightChild(self, i):
         return i * 2+2
+    
+    def swap(self, i ,j):
+        self.heap[i], self.heap[j] = self.heap[j], self.heap[i]
+
+    def insert(self, request):
+        self.heap.append(request)
+        heap = self.heap
+        i = len(heap)-1
+        while i>0:
+            parent = self.getParentIndex(i)
+            if heap[i]>heap[parent]:
+                heap.swap(i,parent)
+                i-=1
+                continue
+            break
+
+        
+
+    
+
+
         
 
 

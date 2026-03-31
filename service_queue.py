@@ -38,11 +38,9 @@ class Maxheap:
         i = len(heap)-1
         while i>0:
             parent = self.getParentIndex(i)
-            if heap[i]>heap[parent]:
-                heap.swap(i,parent)
-                i-=1
-                continue
-            break
+            if heap[i].priority > heap[parent].priority:
+                self.swap(i,parent)
+                i=parent
 
         
 

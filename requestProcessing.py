@@ -5,8 +5,8 @@ class Node:
 
 class RequestQueue:
     def __init__(self):
-        self.head = None  # front of queue (dequeue from here)
-        self.tail = None  # back of queue (enqueue here)
+        self.head = None
+        self.tail = None 
         self.size = 0
 
     def enqueue(self, request):
@@ -27,7 +27,7 @@ class RequestQueue:
             self.tail = None
         self.size -= 1
         return data
-
+    
     def peek(self):
         if self.is_empty():
             raise IndexError("Queue is empty")

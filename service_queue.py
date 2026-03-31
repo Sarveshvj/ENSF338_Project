@@ -13,11 +13,21 @@ class Request:
         self.priority = priority
 
 class Maxheap:
-    """Is a class that will store requets objects in the form of an avl tree in the form of a max heap
+    """Is a class that will store requets objects in the form of an array based max heap
     
     
     """
-    def __init__(self,):
+    def __init__(self):
         self.heap = []
+
+    def getParentIndex(self, i):
+        return(i-1)//2
+    
+    def getLeftChild(self, i):
+        return i * 2+1
+    
+    def getRightChild(self, i):
+        return i * 2+2
+        
 
 

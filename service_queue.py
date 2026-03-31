@@ -12,4 +12,12 @@ class Request:
         self.description = description
         self.priority = priority
 
+class Maxheap:
+    """Is a class that will store requets objects in the form of an avl tree in the form of a max heap
+    
+    
+    """
+    def __init__(self,):
+        self.heap = []
+
 

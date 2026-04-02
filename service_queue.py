@@ -42,6 +42,31 @@ class Maxheap:
                 self.swap(i,parent)
                 i=parent
 
+
+    def getMaxPriority(self):
+        heap = self.heap
+        result = heap[0]
+        length = len(heap)-1
+        heap[0], heap[length] = heap[length], heap[0]
+        heap.pop(length)
+        key = 0
+        while key<= (len(heap)-1):
+            if key*2+2 < len(heap) and heap[key].priority<heap[key*2+2].priority:
+                heap[key], heap[key*2+2] = heap[key*2+2], heap[key]
+                key = key*2+2
+                continue
+            elif key*2+1 < len(heap) and heap[key].priority<heap[key*2+1].priority  :
+                heap[key], heap[key*2+1] = heap[key*2+1], heap[key]
+                key = key*2+1
+                continue
+            break
+        return result
+
+
+
+
+        
+
         
 
     

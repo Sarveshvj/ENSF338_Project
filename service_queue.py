@@ -20,13 +20,13 @@ class Maxheap:
     def __init__(self):
         self.heap = []
 
-    def getParentIndex(i):
+    def getParentIndex(self, i):
         return(i-1)//2
     
-    def getLeftChild(i):
+    def getLeftChild(self, i):
         return i * 2+1
     
-    def getRightChild(i):
+    def getRightChild(self, i):
         return i * 2+2
     
     def swap(self, i ,j):
@@ -44,12 +44,21 @@ class Maxheap:
 
 
     def getMaxPriority(self):
+        
         heap = self.heap
+        if not heap:
+            return None
+        
         result = heap[0]
+
         length = len(heap)-1
-        heap[0], heap[length] = heap[length], heap[0]
+        
+        self.swap(0,length)
+
         heap.pop(length)
+
         key = 0
+
         while key <= (len(heap)-1):
             right = self.getRightChild(key)
             left = self.getLeftChild(key)

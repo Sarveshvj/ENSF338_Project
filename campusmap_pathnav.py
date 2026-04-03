@@ -35,15 +35,15 @@ class Campus:       # graph class
         self.buildings[new_building] = self.pathways[-1]
         return new_building
     
-    def addPathway(self, n1, n2, weight):
+    def addPathway(self, building1, building2, weight):
         '''
         -   adds new Pathway edge given two building nodes (n1, n2) and edge weight (weight).
         '''
-        if n1 not in self.buildings or n2 not in self.buildings:
+        if building1 not in self.buildings or building2 not in self.buildings:
             return -1
         
-        self.buildings[n1].append((n2, weight))     # add n2 node and associated edge weight to current n1 nodes adj list thru self.buildings node key acess
-        self.buildings[n2].append((n1, weight))
+        self.buildings[building1].append((building2, weight))     # add n2 node and associated edge weight to current n1 nodes adj list thru self.buildings node key acess
+        self.buildings[building2].append((building1, weight))
 
     def fileImport(self, file):
         '''
@@ -62,3 +62,53 @@ class Campus:       # graph class
         -   weights provided
         -   likely undirected weighted graphs
         '''
+        self.buildings = {}
+        self.pathways = []
+        try:
+            with open(file, 'r') as f:
+                lines = f.readlines()
+
+                if not lines[0].strip() == 'strict graph G {':
+                    return None
+                
+                for line in lines[1:]:
+                    line = line.strip()
+
+                    if line == '}':
+                        break
+
+                    if '--' not in line:
+                        return None
+                    
+                    parts = line.split('--')
+                    id1 = parts[0].strip()
+                    id2 = parts[1].split('[')(0).strip()
+
+                    if 'weight' in line:
+                        weight = int(line.split('weight=')[1].split('[')[0])
+                    else:
+                        weight = 1
+
+                    building1 = None
+                    building2 = None
+
+                    for building in self.buildings:
+                        if building.building_id == id1:
+                            building1 = building
+                        if building.building_id == id2:
+                            building2 = building
+                        if building1 and building2:
+                            break
+
+                    if building1 is None:
+                        building1 = self.addBuilding(building1)
+
+                    if building2 is None:
+                        building2 = self.addBuilding(building2)
+
+                    self.addPathway(building1, building2, weight)
+        
+        except:
+            return None
+
+        

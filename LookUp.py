@@ -47,10 +47,10 @@ class Building:
 
 class LookupSystem:
     def __init__(self):
-        self.buildings = {}   # building_id -> Building
-        self.rooms = {}       # room_id -> Room
+        self.buildings = {}  
+        self.rooms = {}       
 
-    # ---------- building ----------
+    #building
     def add_building(self, building):
         self.buildings[building.building_id] = building
 
@@ -70,7 +70,7 @@ class LookupSystem:
 
             del self.buildings[building_id]
 
-    # ---------- room ----------
+    #room 
     def add_room(self, building_id, room):
         if building_id in self.buildings:
             self.buildings[building_id].add_room(room)
@@ -93,16 +93,14 @@ class LookupSystem:
                 building.remove_room(room_id)
                 break
 
-    # ---------- demo print ----------
+    #demo print
     def print_all(self):
         print("Buildings:", list(self.buildings.keys()))
         print("Rooms:", list(self.rooms.keys()))
 
 
-# ---------- demo 
 def main():
-    import time   # only used for performance demo
-
+    import time   
     system = LookupSystem()
 
     # add buildings
@@ -136,7 +134,6 @@ def main():
 
     system.print_all()
 
-    # ---------- performance demo ----------
     print("\n--- Performance Test ---")
 
     start = time.time()
@@ -144,7 +141,6 @@ def main():
     end = time.time()
     print("Lookup time (small data):", end - start)
 
-    # add many buildings
     for i in range(10000):
         b = Building("B" + str(i), "Building" + str(i), (i, i))
         system.add_building(b)

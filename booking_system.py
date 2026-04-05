@@ -172,6 +172,10 @@ class BookingSystem:
             print("Error: room_id and event_name cannot be empty.")
             return None
         booking = Booking(room_id, date, start_time, end_time, event_name)
+        booking = Booking(room_id, date, start_time, end_time, event_name)
+        self.bst.insert(booking)
+        self.bookings_map[booking.booking_id] = booking
+        return booking
 
     def remove_booking(self, booking_id):
         if booking_id not in self.bookings_map:
@@ -183,7 +187,7 @@ class BookingSystem:
         return ok
     
     def cancel_all_bookings_for_room(self, room_id):
-        to_remove = [b for b in self.bookings_by_id.values() if b.room_id == room_id]
+        to_remove = [b for b in self.bookings_map.values() if b.room_id == room_id]
         for b in to_remove:
             self.remove_booking(b.booking_id)
         print(f"Cancelled {len(to_remove)} bookings for room {room_id}")
@@ -208,7 +212,7 @@ class BookingSystem:
     
     def get_busiest_room(self):
         counts = {}
-        for b in self.bookings_by_id.values():
+        for b in self.bookings_map.values():
             counts[b.room_id] = counts.get(b.room_id, 0) + 1
         if not counts:
             return None

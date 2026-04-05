@@ -181,6 +181,12 @@ class BookingSystem:
         if ok:
             del self.bookings_map[booking_id]
         return ok
+    
+    def cancel_all_bookings_for_room(self, room_id):
+        to_remove = [b for b in self.bookings_by_id.values() if b.room_id == room_id]
+        for b in to_remove:
+            self.remove_booking(b.booking_id)
+        print(f"Cancelled {len(to_remove)} bookings for room {room_id}")
 
     def get_booking(self, booking_id):
         return self.bookings_map.get(booking_id, None)

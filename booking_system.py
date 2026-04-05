@@ -195,6 +195,11 @@ class BookingSystem:
         start = datetime.strptime(f"{date_str} 00:00", "%Y-%m-%d %H:%M")
         end = datetime.strptime(f"{date_str} 23:59", "%Y-%m-%d %H:%M")
         return self.bst.range_query(start, end)
+    
+    def count_bookings_by_date(self, date_str):
+        count = len(self.get_bookings_on_date(date_str))
+        print(f"Total bookings on {date_str}: {count}")
+        return count
 
     def get_bookings_in_range(self, start_date, start_time, end_date, end_time):
         start_dt = datetime.strptime(f"{start_date} {start_time}", "%Y-%m-%d %H:%M")

@@ -168,10 +168,10 @@ class BookingSystem:
         self.bookings_map = {}  # id -> booking for quick access
 
     def add_booking(self, room_id, date, start_time, end_time, event_name):
+        if not room_id or not event_name:
+            print("Error: room_id and event_name cannot be empty.")
+            return None
         booking = Booking(room_id, date, start_time, end_time, event_name)
-        self.bst.insert(booking)
-        self.bookings_map[booking.booking_id] = booking
-        return booking
 
     def remove_booking(self, booking_id):
         if booking_id not in self.bookings_map:
@@ -194,6 +194,16 @@ class BookingSystem:
         start_dt = datetime.strptime(f"{start_date} {start_time}", "%Y-%m-%d %H:%M")
         end_dt = datetime.strptime(f"{end_date} {end_time}", "%Y-%m-%d %H:%M")
         return self.bst.range_query(start_dt, end_dt)
+    
+    def get_busiest_room(self):
+        counts = {}
+        for b in self.bookings_by_id.values():
+            counts[b.room_id] = counts.get(b.room_id, 0) + 1
+        if not counts:
+            return None
+        busiest = max(counts, key=counts.get)
+        print(f"Busiest room: {busiest} with {counts[busiest]} bookings")
+        return busiest
 
     def next_upcoming(self, date=None, time=None):
         if date and time:
@@ -278,3 +288,12 @@ if __name__ == "__main__":
     print(f"\nBookings on April 15: {len(sample)}")
     for b in sample:
         print(f"  {b}")
+
+    print("\n--- Busiest Room ---")
+    system.get_busiest_room()
+
+    print("\n--- Booking count on April 5 ---")
+    system.count_bookings_by_date("2026-04-05")
+
+    print("\n--- Cancel all ICT-121 bookings ---")
+    system.cancel_all_bookings_for_room("ICT-121")

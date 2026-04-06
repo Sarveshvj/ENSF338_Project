@@ -20,7 +20,20 @@ def serve_request(heap):
         print("No requests in queue.")
         return
     print(f"\nServing Request #{request.id}")
-    print(f"  Name: {request.name}")
-    print(f"  Room: {request.room}")
-    print(f"  Priority: {request.priority}")
-    print(f"  Description: {request.description}")
+    print(f" Name: {request.name}")
+    print(f" Room: {request.room}")
+    print(f" Priority: {request.priority}")
+    print(f" Description: {request.description}")
+
+
+def view_queue(heap):
+    if not heap.heap:
+        print("Queue is empty.")
+        return
+    print("\nCurrent Service Queue: ")
+    for i in heap.heap:
+        if i.description is not None:
+            desc = f" - {i.description}"
+        else:
+            desc = ""
+        print(f"\n Priority level: {i.priority} Request #{i.id} - {i.name} - {i.room}\n -{desc}")

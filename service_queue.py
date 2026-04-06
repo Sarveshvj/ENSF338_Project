@@ -4,6 +4,7 @@ class Request:
     Will be used in our heap class as request objects
     
     """
+    _id_Counter = 0
     
     def __init__(self, id, name, room, priority, description=None ):
         self.id = id

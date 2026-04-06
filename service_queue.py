@@ -5,8 +5,9 @@ class Request:
     
     """
     _id_Counter = 0
-    
+
     def __init__(self, id, name, room, priority, description=None ):
+        Request._id_counter += 1
         self.id = id
         self.name = name
         self.room = room

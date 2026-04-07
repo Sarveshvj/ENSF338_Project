@@ -23,3 +23,11 @@ A Campus Navigation and Event Management System built for ENSF 338. The system m
 - No external libraries required
 
 ### Running Individual Features
+- `python booking_system.py` — Feature 2.3 Room and Event Booking System
+- `python campusmap_pathnav.py` — Feature 2.1 Campus Map and Shortest Path
+- `python navigation_history.py` — Feature 2.2 Route History and Undo
+- `python service_queue.py` — Feature 2.4 Priority Service Queue
+- `python requestProcessing.py` — Feature 2.6 Incoming Request Processing
+
+### Running the Full System
+- `python main.py`

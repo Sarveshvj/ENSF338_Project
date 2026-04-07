@@ -1,8 +1,10 @@
 from service_queue import Maxheap, Request
 
+from booking_system import BookingSystem
 
 
 
+#-----------------------Service Queue-----------------------------------------------------------------
 def add_request(heap):
     name = input("Enter requester name: ")
     room = input("Enter room name: ")
@@ -37,3 +39,22 @@ def view_queue(heap):
         else:
             desc = ""
         print(f"\n Priority level: {i.priority} Request #{i.id} - {i.name} - {i.room}\n -{desc}")
+#------------------------------End Of Service----------------------------------------------------
+#----------------------------Booking system------------------------------------------------------
+
+
+
+def add_booking(system):
+    room_id = input("Enter room ID: ")
+    date = input("Enter date in the format of YYYY-MM-DD: ")
+    start_time = input("Enter start time in HH:MM format: ")
+    end_time = input("Enter end time in HH:MM format: ")
+    event_name = input("Enter event name: ")
+    
+    booking = system.add_booking(room_id, date, start_time, end_time, event_name)
+    if booking:
+        print(f"\nBooking #{booking.booking_id} added")
+
+def remove_booking(system):
+    booking_id = int(input("Enter booking ID to remove: "))
+    system.remove_booking(booking_id)

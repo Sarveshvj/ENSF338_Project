@@ -97,7 +97,7 @@ def view_next_upcoming(system):
 
 def main():
     heap = Maxheap()
-    system= BookingSystem
+    system= BookingSystem()
     while True:
         print("          Campus Management        ")
         print("Campus Map and Shortest Path (1)")
@@ -119,12 +119,40 @@ def main():
             pass
 
         elif choice == "3":
-            # 3 - Room and event booking
-            pass
+            print("\nRoom and Event Booking ")
+            print("Add Booking (1)")
+            print("Remove Booking (2)")
+            print("View Bookings on Date (3)")
+            print("View Bookings in Range (4)")
+            print("View Next Upcoming Booking (5)")
+            sub_choice = input("\nEnter choice: ")
+            if sub_choice == "1":
+                add_booking(system)
+            elif sub_choice == "2":
+                remove_booking(system)
+            elif sub_choice == "3":
+                view_bookings_on_date(system)
+            elif sub_choice == "4":
+                view_bookings_in_range(system)
+            elif sub_choice == "5":
+                view_next_upcoming(system)
+            else:
+                print("Invalid choice.")
 
         elif choice == "4":
-            # 4 - Priority service queue
-            pass
+            print("\n Priority Service Queue ")
+            print(" Add Request (1)")
+            print(" Serve Next Request (2)")
+            print(" View Queue (3)")
+            sub_choice = input("\nEnter choice: ")
+            if sub_choice == "1":
+                add_request(heap)
+            elif sub_choice == "2":
+                serve_request(heap)
+            elif sub_choice == "3":
+                view_queue(heap)
+            else:
+                print("Invalid choice.")
 
         elif choice == "5":
             # 5 - Building and resource lookup 

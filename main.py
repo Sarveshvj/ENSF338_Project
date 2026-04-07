@@ -71,8 +71,27 @@ def view_bookings_on_date(system):
         print(f" {i} ")
 
 
+def view_bookings_in_range(system):
+    start_date = input("Enter the start date in the format YYYY-MM-DD: ")
+    start_time = input("Enter the start time HH:MM format: ")
+    end_date = input("Enter the start date in the format YYYY-MM-DD: ")
+    end_time = input("Enter the start time HH:MM format: ")
+    bookings = system.get_bookings_in_range(start_date, start_time, end_date, end_time)
+    if not bookings:
+        print("No bookings found in that range.")
+        return
+    print(f"\n Bookings from {start_date} at {start_time} to {end_date} at {end_time}")
+    for i in bookings:
+        print(f" {i}")
 
-
+def view_next_upcoming(system):
+    date = input("Enter the start date in the format YYYY-MM-DD: ")
+    time = input("Enter the start time HH:MM format: ")
+    booking = system.next_upcoming(date, time)
+    if booking:
+        print(f"\n Upcoming: {booking}")
+    else:
+        print("No upcoming bookings found.")
 
 
 
@@ -88,6 +107,7 @@ def main():
         print("Fast Building and Resource Lookup (5)")
         print("Incoming Request Processing (6)")
         print(" Exit (0)")
+        choice = input()
 
 
         if choice == "1":

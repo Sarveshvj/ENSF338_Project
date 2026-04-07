@@ -12,7 +12,7 @@ def add_request(heap):
     priority = int(input("Enter priority level (1-3): "))
     description = input("Enter description or press Enter to skip: ")
     
-    request = Request(Request._id_counter + 1, name, room, priority, description)
+    request = Request(name, room, priority, description)
     heap.insert(request)
     print(f"\nRequest #{request.id} added successfully!")
 

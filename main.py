@@ -69,3 +69,59 @@ def view_bookings_on_date(system):
     print(f"\nThere are bookings on: {date}")
     for i in bookings:
         print(f" {i} ")
+
+
+
+
+
+
+
+def main():
+    heap = Maxheap()
+    system= BookingSystem
+    while True:
+        print("          Campus Management        ")
+        print("Campus Map and Shortest Path (1)")
+        print("Route History and Undo (2)")
+        print("Room and Event Booking (3)")
+        print("Priority-Based Service Queue (4)")
+        print("Fast Building and Resource Lookup (5)")
+        print("Incoming Request Processing (6)")
+        print(" Exit (0)")
+
+
+        if choice == "1":
+            # 1 - Campus map and shortest path 
+            pass
+
+        elif choice == "2":
+            # 2 - Navigation history and undo
+            pass
+
+        elif choice == "3":
+            # 3 - Room and event booking
+            pass
+
+        elif choice == "4":
+            # 4 - Priority service queue
+            pass
+
+        elif choice == "5":
+            # 5 - Building and resource lookup 
+            pass
+
+        elif choice == "6":
+            # 6 - Incoming request processing 
+            pass
+
+        elif choice == "0":
+            print("Exiting")
+            break
+
+        else:
+            print("Invalid choice.")
+
+
+
+
+

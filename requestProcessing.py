@@ -1,7 +1,7 @@
 class Request:
     def __init__(self, request_id: int, request_type: str, details: str):
         self.request_id = request_id
-        self.request_type = request_type  # "navigation" or "service"
+        self.request_type = request_type
         self.details = details
 
     def __str__(self):
@@ -84,7 +84,7 @@ def simulate_pipeline():
         Request(20, "service",    "IT support - Admin"),
     ]
 
-    print("=== Enqueueing Requests ===")
+    print(" Enqueueing Requests ")
     for r in requests:
         queue.enqueue(r)
         print(f"  Enqueued {r}")
@@ -92,7 +92,7 @@ def simulate_pipeline():
     print(f"\nQueue size: {len(queue)}")
     print(f"Next to process: {queue.peek()}")
 
-    print("\n=== Processing in Arrival Order ===")
+    print("\nProcessing in Arrival Order ")
     processed = 0
     while not queue.is_empty():
         queue.process_next()

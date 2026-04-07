@@ -10,7 +10,7 @@ def add_request(heap):
     room = input("Enter room name: ")
     print("Priority levels: 1 = Low, 2 = Standard, 3 = Emergency")
     priority = int(input("Enter priority level (1-3): "))
-    description = input("Enter description or press Enter to skip: ")
+    description = input("Enter description or press Enter to skip: ") or None
     
     request = Request(name, room, priority, description)
     heap.insert(request)

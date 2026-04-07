@@ -1,7 +1,7 @@
 import sys
 
 class Building:     # node (vertex) class
-    def __init__(self, building_id: str, name: str, location: tuple):
+    def __init__(self, building_id: str, name: str=None, location: tuple=None):
         self.building_id    = building_id       # IE. "ICT-121"
         self.name           = name              # "Information and Comm. Tech"
         self.location       = location          # (lat, lon) or grid coords
@@ -64,7 +64,9 @@ class Campus:       # graph class
 
         -   connection identifiers possibly building_id's (0 -- 557 ...)
         -   weights provided
-        -   likely undirected weighted graphs
+        -   undirected weighted graphs
+        -   method of interpreting .dot file involves processing each line and 
+            interpreting data between points like '--' and 'weight='.
         '''
         self.buildings = {}
         self.pathways = []
@@ -118,8 +120,9 @@ class Campus:       # graph class
 
     def dijkstra(self, srcNode):
         '''
-        adapted and adjusted from 'advanced graphs 1' lecture
-        currDist, pred, and toBeChecked adjusted from lists to dicts to better suit current chosen data style
+        -   adapted and adjusted from 'advanced graphs 1' lecture
+        -   currDist, pred, and toBeChecked adjusted from lists to dicts to better suit current chosen data style
+
         NOTES: return format for use in being called by shortestPathNav(), NOT individual call.
         '''
         # referenced from class but using dicts instead of lists for easier interpretations of current dict format into lecture example
@@ -150,6 +153,13 @@ class Campus:       # graph class
         return currDist, pred           # returns currDist: dict of distances of nodes from srcNode with node keys, and pred: dict of predecessor building_ids of key nodes for shortest path from srcNode
                                         
     def shortestPathNav(self, srcNode, destNode):
+        '''
+        -   creates shortest path from srcNode to destNode using dijkstra()
+        -   only instance of dijkstra() being called
+        -   returns ordered list of shortest path from srcNode to destNode, and int total distance from srcNode to destNode
+
+        NOTES:  does NOT handle displaying / printing results
+        '''
         currDist, pred = self.dijkstra(srcNode)
 
         path = []                       # ordered list of nodes, ordered from shortest path of srcNode (path[0]) to destNode (path[-1])
@@ -161,6 +171,70 @@ class Campus:       # graph class
         path.reverse()                  # reverse path to put in correct sequential order, srcNode -> ... -> destNode, method cited from geeksforgeeks: 3
         
         return path, currDist[destNode] # return shortest path of nodes and total distance of destNode to srcNode from dijkstra().
+
+    def displayShortestPath(self, srcNode, destNode):
+        '''
+        -   displays / prints results from shortestPathNav()
+        '''            
+        path, totalUnits = self.shortestPathNav(srcNode, destNode)
+        print(f"\nSHORTEST PATH from {srcNode.building_id} to {destNode.building_id}\n")
+        for node in path:
+            print(f"({node.building_id})", end='')
+            if node != path[-1]:
+                print("----", end='')
+        print(f"\n\nTotal distance/time = {totalUnits} units\n")
+
+
+if __name__ == "__main__":
+    # creating Campus() graph
+    try:
+        testMap = Campus()
+        print("Campus graph created.")
+    except:
+        print("ERROR: Campus graph failed to create.")
+
+    # creating building_id values for Building objects
+    building_id1 = "ICT-121"
+    building_id2 = "ST-144"
+    building1 = testMap.addBuilding(building_id1)       # addBuilding returns the node created, saves into building1 and building2
+    print(f"building1 created with building_id: {building_id1}")
+    building2 = testMap.addBuilding(building_id2)
+    print(f"building2 created with building_id: {building_id2}")
+
+    # add edge between building1 and building2
+    weight1 = 30
+    testMap.addPathway(building1, building2, weight1)
+    print(f"Pathway between {building1.building_id} and {building2.building_id} created with weight {weight1}.")
+
+    # check shortest path to be returned by displayShortestPath()
+    testMap.displayShortestPath(building1, building2)
+
+    # add new building, and shorter pathway through new building from building1 to building2
+    building3 = testMap.addBuilding("ENGA-201")
+    print(f"building3 created with building_id: {building3.building_id}")
+
+    weight2 = 15
+    testMap.addPathway(building1, building3, weight2)
+    print(f"Pathway between {building1.building_id} and {building3.building_id} created with weight {weight2}.")
+    
+    weight3 = 10
+    testMap.addPathway(building3, building2, weight3)
+    print(f"Pathway between {building3.building_id} and {building2.building_id} created with weight {weight3}.")
+
+    # displayShortestPath() should now travel through building3 to get from building1 to building2 with less cost
+    testMap.displayShortestPath(building1, building2)
+
+    # fileImport should overwrite existing graph buildings and pathways.
+    testMap.fileImport("test.dot")
+    print("Graph file imported from test.dot\n")
+
+    # test to see if fileImport properly overwrote existing graph with 15 new Building nodes
+    buildings = list(testMap.buildings.keys())          # load building nodes into list
+    for i in range(len(buildings)):
+        print(f"{buildings[i].building_id}")            # print list of Building node building_ids
+    
+    # test displayShortedPath with new fileImport nodes.
+    testMap.displayShortestPath(buildings[0], buildings[6])         # should be Building("ST-144") to Building("ICT-305")
 
 '''
 CITINGS:

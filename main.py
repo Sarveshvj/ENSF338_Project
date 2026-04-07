@@ -58,3 +58,14 @@ def add_booking(system):
 def remove_booking(system):
     booking_id = int(input("Enter booking ID to remove: "))
     system.remove_booking(booking_id)
+
+
+def view_bookings_on_date(system):
+    date = input("Enter date in the format of YYYY-MM-DD: ")
+    bookings = system.get_bookings_on_date(date)
+    if not bookings:
+        print(f"No bookings found on that date: {date}")
+        return
+    print(f"\nThere are bookings on: {date}")
+    for i in bookings:
+        print(f" {i} ")

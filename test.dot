@@ -1,0 +1,34 @@
+strict graph G {
+    ST-144 -- ICT-121    [weight=45];
+    ST-144 -- ENGG-60    [weight=38];
+    ST-144 -- LIB-201    [weight=62];
+    ST-144 -- ADM-100    [weight=31];
+    ICT-121 -- ENGA-101  [weight=57];
+    ICT-121 -- ICT-305   [weight=29];
+    ICT-121 -- CHEM-114  [weight=50];
+    ENGG-60 -- ENGA-101  [weight=30];
+    ENGG-60 -- ENGG-102  [weight=41];
+    ENGG-60 -- MECH-330  [weight=85];
+    ENGA-101 -- SCI-210  [weight=74];
+    ENGA-101 -- ICT-305  [weight=53];
+    LIB-201 -- ARTS-118  [weight=22];
+    LIB-201 -- HUM-202   [weight=71];
+    LIB-201 -- SCI-210   [weight=66];
+    ICT-305 -- ENGG-102  [weight=49];
+    ICT-305 -- ADM-100   [weight=83];
+    ENGG-102 -- MECH-330 [weight=91];
+    ENGG-102 -- SCI-210  [weight=35];
+    SCI-210 -- CHEM-114  [weight=17];
+    SCI-210 -- BIO-115   [weight=43];
+    SCI-210 -- ADM-100   [weight=60];
+    ARTS-118 -- ADM-100  [weight=44];
+    ARTS-118 -- HUM-202  [weight=78];
+    ADM-100 -- MECH-330  [weight=25];
+    ADM-100 -- HUM-202   [weight=56];
+    MECH-330 -- CHEM-114 [weight=88];
+    CHEM-114 -- BIO-115  [weight=36];
+    CHEM-114 -- HUM-202  [weight=33];
+    BIO-115 -- PHYS-220  [weight=68];
+    PHYS-220 -- MECH-330 [weight=55];
+    PHYS-220 -- ICT-305  [weight=47];
+}

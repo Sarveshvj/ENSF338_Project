@@ -2,6 +2,9 @@ from service_queue import Maxheap, Request
 
 from booking_system import BookingSystem
 
+from navigation_history import NavigationHistory
+
+from campusmap_pathnav import Campus
 
 
 #-----------------------Service Queue-----------------------------------------------------------------
@@ -93,31 +96,97 @@ def view_next_upcoming(system):
     else:
         print("No upcoming bookings found.")
 
+#------------------------------End Of Booking System---------------------------------------------
+#----------------------------Navigation History--------------------------------------------------
+def view_current_location(nav_history):
+    if nav_history.current_origin is None:
+        print("\nNo current location")
+    else:
+        print(f"Current Location: {nav_history.current_origin}")
+
+def view_history(nav_history):
+    if nav_history.current_origin is None:
+        print("\nNo current location")
+    else:
+        view_current_location(nav_history)
+        print(f"\nUndo History: {nav_history.back_stack}")
+        print(f"\nForward History: {nav_history.forward_stack}")
+
+def undo_navigation(nav_history):
+    nav_history.undo()
+    print(f"\nYou are now at: {nav_history.current_origin}")
+
+def forward_navigation(nav_history):
+    nav_history.forward()
+    print(f"\nYou are now at: {nav_history.current_origin}")
+
+def navigate_to_location(nav_history, campus):
+    origin_id = input("Enter origin building ID: ")
+    dest_id = input("Enter destination building ID: ")
+    
+    origin_building = None
+    dest_building = None
+    
+    for building in campus.buildings:
+        if building.building_id == origin_id:
+            origin_building = building
+        if building.building_id == dest_id:
+            dest_building = building
+    
+    if origin_building is None or dest_building is None:
+        print("Invalid building ID(s)")
+        return
+    
+    campus.displayShortestPath(origin_building, dest_building)
+
+    nav_history.navigate(origin_id, dest_id)
+
+    print(f"\nYou are now at: {dest_id}")
+#----------------------------End of Navigation History-------------------------------------------
 
 
 def main():
     heap = Maxheap()
     system= BookingSystem()
+    nav_history = NavigationHistory()
+    campus = Campus()
+    campus.fileImport("test.dot")
     while True:
-        print("          Campus Management        ")
-        print("Campus Map and Shortest Path (1)")
-        print("Route History and Undo (2)")
-        print("Room and Event Booking (3)")
-        print("Priority-Based Service Queue (4)")
-        print("Fast Building and Resource Lookup (5)")
-        print("Incoming Request Processing (6)")
-        print(" Exit (0)")
-        choice = input()
-
+        print("\n========== Campus Management System ==========")
+        print("1. Campus Map and Shortest Path")
+        print("2. Route History and Undo")
+        print("3. Room and Event Booking")
+        print("4. Priority-Based Service Queue")
+        print("5. Fast Building and Resource Lookup")
+        print("6. Incoming Request Processing")
+        print("0. Exit")
+        print("==============================================")
+        choice = input("\nEnter choice: ")
 
         if choice == "1":
             # 1 - Campus map and shortest path 
             pass
 
         elif choice == "2":
-            # 2 - Navigation history and undo
-            pass
-
+            print("\nRoute History and Navigation Undo")
+            print("Navigate to Location (1)")
+            print("Undo Last Navigation (2)")
+            print("Go Forward (3)")
+            print("View Current Location (4)")
+            print("View History (5)")
+            sub_choice = input("\nEnter choice: ")
+            if sub_choice == "1":
+                navigate_to_location(nav_history, campus)
+            elif sub_choice == "2":
+                undo_navigation(nav_history)
+            elif sub_choice == "3":
+                forward_navigation(nav_history)
+            elif sub_choice == "4":
+                view_current_location(nav_history)
+            elif sub_choice == "5":
+                view_history(nav_history)
+            else:
+                print("Invalid choice.")
         elif choice == "3":
             print("\nRoom and Event Booking ")
             print("Add Booking (1)")
@@ -169,7 +238,6 @@ def main():
         else:
             print("Invalid choice.")
 
-
-
-
+if __name__ == "__main__":
+    main()
 

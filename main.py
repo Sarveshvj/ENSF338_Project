@@ -106,7 +106,7 @@ def view_current_location(nav_history):
 
 def view_history(nav_history):
     if nav_history.current_origin is None:
-        print("\nNo current location")
+        print("\nNo History")
     else:
         view_current_location(nav_history)
         print(f"\nUndo History: {nav_history.back_stack}")
@@ -114,16 +114,20 @@ def view_history(nav_history):
 
 def undo_navigation(nav_history):
     nav_history.undo()
-    print(f"\nYou are now at: {nav_history.current_origin}")
+    print(f"You are now at: {nav_history.current_origin}")
 
 def forward_navigation(nav_history):
     nav_history.forward()
-    print(f"\nYou are now at: {nav_history.current_origin}")
+    print(f"You are now at: {nav_history.current_origin}")
 
 def navigate_to_location(nav_history, campus):
-    origin_id = input("Enter origin building ID: ")
+    if nav_history.current_origin is None:
+        origin_id = input("Enter origin building ID: ")
+    else:
+        origin_id = nav_history.current_origin
+        print(f"Navigating from current location: {origin_id}")
     dest_id = input("Enter destination building ID: ")
-    
+
     origin_building = None
     dest_building = None
     
@@ -138,10 +142,8 @@ def navigate_to_location(nav_history, campus):
         return
     
     campus.displayShortestPath(origin_building, dest_building)
-
     nav_history.navigate(origin_id, dest_id)
-
-    print(f"\nYou are now at: {dest_id}")
+    print(f"You are now at: {dest_id}")
 #----------------------------End of Navigation History-------------------------------------------
 
 

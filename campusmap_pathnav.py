@@ -175,7 +175,15 @@ class Campus:       # graph class
     def displayShortestPath(self, srcNode, destNode):
         '''
         -   displays / prints results from shortestPathNav()
-        '''            
+        '''
+        if srcNode is None and destNode is None:
+            print("Buildings: ")
+            for node in self.buildings:
+                print(f" - {node.building_id}")
+                return
+        elif srcNode not in self.buildings or destNode not in self.buildings:
+            print("Invalid building ID(s).")
+            return            
         path, totalUnits = self.shortestPathNav(srcNode, destNode)
         print(f"\nSHORTEST PATH from {srcNode.building_id} to {destNode.building_id}\n")
         for node in path:

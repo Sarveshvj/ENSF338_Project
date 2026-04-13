@@ -172,7 +172,6 @@ class BookingSystem:
             print("Error: room_id and event_name cannot be empty.")
             return None
         booking = Booking(room_id, date, start_time, end_time, event_name)
-        booking = Booking(room_id, date, start_time, end_time, event_name)
         self.bst.insert(booking)
         self.bookings_map[booking.booking_id] = booking
         return booking

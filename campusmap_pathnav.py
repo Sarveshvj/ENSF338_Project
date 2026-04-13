@@ -180,7 +180,7 @@ class Campus:       # graph class
             print("Buildings: ")
             for node in self.buildings:
                 print(f" - {node.building_id}")
-                return
+            return
         elif srcNode not in self.buildings or destNode not in self.buildings:
             print("Invalid building ID(s).")
             return            

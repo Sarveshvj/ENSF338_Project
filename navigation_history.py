@@ -19,7 +19,7 @@ class NavigationHistory:
     
     def undo(self):
         if not self.back_stack:
-            print("Nothing to go back to")
+            print("\nNothing to go back to")
             return self.current_origin
         
         self.forward_stack.append(self.current_origin)
@@ -29,7 +29,7 @@ class NavigationHistory:
     #Not sure if we need added incase
     def forward(self):
         if not self.forward_stack:
-            print("Nothing to go forward to")
+            print("\nNothing to go forward to")
             return self.current_origin
 
         self.back_stack.append(self.current_origin)

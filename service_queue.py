@@ -43,6 +43,8 @@ class Maxheap:
             if heap[i].priority > heap[parent].priority:
                 self.swap(i,parent)
                 i=parent
+            else:
+                break
 
 
     def getMaxPriority(self):

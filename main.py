@@ -6,6 +6,26 @@ from navigation_history import NavigationHistory
 
 from campusmap_pathnav import Campus
 
+#-----------------------Shortest Path-----------------------------------------------------------------
+def show_buildings(campus):
+    campus.displayShortestPath(srcNode=None, destNode=None)
+
+def shortest_path(campus):
+    srcNodeId = input("\nEnter a source building: ")
+    destNodeId = input("\nEnter a destination building: ")
+    for building in campus.buildings:
+        if building.building_id == srcNodeId:
+            srcNode = building
+        if building.building_id == destNodeId:
+            destNode = building
+
+    if srcNode is None or destNode is None:
+        print("Invalid building ID(s)")
+        return
+    
+    campus.displayShortestPath(srcNode, destNode)
+
+#-----------------------End of Shortest Path----------------------------------------------------------
 
 #-----------------------Service Queue-----------------------------------------------------------------
 def add_request(heap):
@@ -166,8 +186,16 @@ def main():
         choice = input("\nEnter choice: ")
 
         if choice == "1":
-            # 1 - Campus map and shortest path 
-            pass
+            print("\nCampus Map and Shortest Path Calculation")
+            print("Display Available Campus Buildings (1)")
+            print("Calculate Shortest Path (2)")
+            sub_choice = input("\nEnter choice: ")
+            if sub_choice == "1":
+                show_buildings(campus)
+            elif sub_choice == "2":
+                shortest_path(campus)
+            else:
+                print("Invalid choice.")
 
         elif choice == "2":
             print("\nRoute History and Navigation Undo")

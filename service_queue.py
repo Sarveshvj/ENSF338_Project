@@ -66,21 +66,19 @@ class Maxheap:
         while key <= (len(heap)-1):
             right = self.getRightChild(key)
             left = self.getLeftChild(key)
-            if right < len(heap) and heap[key].priority<heap[right].priority:
-                self.swap(key, right)
-
-                key = right
-
-                continue
-
-            if left < len(heap) and heap[key].priority<heap[left].priority  :
-                self.swap(key, left)
-
-                key = left
-
-                continue
-
-            break
+            largest = key
+            
+            if left < len(heap) and heap[left].priority > heap[largest].priority:
+                largest = left
+            
+            if right < len(heap) and heap[right].priority > heap[largest].priority:
+                largest = right
+            
+            if largest != key:
+                self.swap(key, largest)
+                key = largest
+            else:
+                break
         return result
 
 

@@ -267,8 +267,8 @@ def main():
             pass
 
         elif choice == "6":
-            # 6 - Incoming request processing 
-            pass
+            from feature_2_6 import simulate_pipeline
+            simulate_pipeline()
 
         elif choice == "0":
             print("Exiting")

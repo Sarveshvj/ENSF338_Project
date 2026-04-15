@@ -11,6 +11,8 @@ class NavigationHistory:
     def navigate(self, origin, destination):
         if self.current_origin is not None:
             self.back_stack.append(self.current_origin)
+        else:
+            self.back_stack.append(origin)
         
         if self.forward_stack:
             self.forward_stack = []
@@ -42,8 +44,7 @@ if __name__ == "__main__":
     
     nav.navigate("Library", "ICT")
     nav.navigate("ICT", "ENG Block")
-    nav.navigate("ENG Block", "Gym")
-    print(f"After 3 navigations - Current: {nav.current_origin}, Back: {nav.back_stack}\n")
+    print(f"After 2 navigations - Current: {nav.current_origin}, Back: {nav.back_stack}\n")
     
     nav.undo()
     nav.undo()
@@ -55,12 +56,14 @@ if __name__ == "__main__":
     nav.navigate("ENG Block", "Parkade")
     print(f"After new nav - Current: {nav.current_origin}, Back: {nav.back_stack}, Forward: {nav.forward_stack}\n")
     
-    nav.undo()
-    nav.undo()
-    nav.undo()
-    nav.undo() 
+    nav.undo() #ICT
+    nav.undo() #Library
+    nav.undo() #Nothing
+    nav.undo() #Nothing
     
-    nav.forward()
-    nav.forward()
-    nav.forward()
-    nav.forward() 
+    nav.forward() #ICT
+    nav.forward() #Parkade
+    nav.forward() #Nothing
+    nav.forward() #Nothing
+
+    

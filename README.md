@@ -29,5 +29,6 @@ A Campus Navigation and Event Management System built for ENSF 338. The system m
 - - `python service_queue.py` — Feature 2.4 Priority Service Queue
 - - `python LookUp.py` — Feature 2.5 Fast Building and Resource Lookup
 - - `python requestProcessing.py` — Feature 2.6 Incoming Request Processing
+- - `python balancedEventIndex.py` — Feature 2.7 Balanced Event Index
 ### Running the Full System
 - `python main.py`

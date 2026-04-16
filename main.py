@@ -269,7 +269,7 @@ def main():
             pass
 
         elif choice == "6":
-            from feature_2_6 import simulate_pipeline
+            from requestProcessing import simulate_pipeline
             simulate_pipeline()
 
         elif choice == "0":

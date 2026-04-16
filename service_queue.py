@@ -4,9 +4,11 @@ class Request:
     Will be used in our heap class as request objects
     
     """
-    
-    def __init__(self, id, name, room, priority, description=None ):
-        self.id = id
+    _id_Counter = 0
+
+    def __init__(self, name, room, priority, description=None ):
+        Request._id_Counter += 1
+        self.id = Request._id_Counter
         self.name = name
         self.room = room
         self.description = description
@@ -41,6 +43,8 @@ class Maxheap:
             if heap[i].priority > heap[parent].priority:
                 self.swap(i,parent)
                 i=parent
+            else:
+                break
 
 
     def getMaxPriority(self):
@@ -62,21 +66,19 @@ class Maxheap:
         while key <= (len(heap)-1):
             right = self.getRightChild(key)
             left = self.getLeftChild(key)
-            if right < len(heap) and heap[key].priority<heap[right].priority:
-                self.swap(key, right)
-
-                key = right
-
-                continue
-
-            if left < len(heap) and heap[key].priority<heap[left].priority  :
-                self.swap(key, left)
-
-                key = left
-
-                continue
-
-            break
+            largest = key
+            
+            if left < len(heap) and heap[left].priority > heap[largest].priority:
+                largest = left
+            
+            if right < len(heap) and heap[right].priority > heap[largest].priority:
+                largest = right
+            
+            if largest != key:
+                self.swap(key, largest)
+                key = largest
+            else:
+                break
         return result
 
 

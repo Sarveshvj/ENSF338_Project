@@ -13,6 +13,8 @@ def show_buildings(campus):
 def shortest_path(campus):
     srcNodeId = input("\nEnter a source building: ")
     destNodeId = input("\nEnter a destination building: ")
+    srcNode = None
+    destNode = None
     for building in campus.buildings:
         if building.building_id == srcNodeId:
             srcNode = building
@@ -22,7 +24,7 @@ def shortest_path(campus):
     if srcNode is None or destNode is None:
         print("Invalid building ID(s)")
         return
-    
+
     campus.displayShortestPath(srcNode, destNode)
 
 #-----------------------End of Shortest Path----------------------------------------------------------

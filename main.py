@@ -84,24 +84,35 @@ def view_queue(heap):
 
 
 def add_booking(system):
-    room_id = input("Enter room ID: ")
-    date = input("Enter date in the format of YYYY-MM-DD: ")
-    start_time = input("Enter start time in HH:MM format: ")
-    end_time = input("Enter end time in HH:MM format: ")
-    event_name = input("Enter event name: ")
-    
-    booking = system.add_booking(room_id, date, start_time, end_time, event_name)
-    if booking:
-        print(f"\nBooking #{booking.booking_id} added")
+    room_id = input("Enter room ID: ").strip()
+    date = input("Enter date in the format of YYYY-MM-DD: ").strip()
+    start_time = input("Enter start time in HH:MM format: ").strip()
+    end_time = input("Enter end time in HH:MM format: ").strip()
+    event_name = input("Enter event name: ").strip()
+
+    try:
+        booking = system.add_booking(room_id, date, start_time, end_time, event_name)
+        if booking:
+            print(f"\nBooking #{booking.booking_id} added")
+    except ValueError:
+        print("Invalid date or time format. Use YYYY-MM-DD and HH:MM.")
 
 def remove_booking(system):
-    booking_id = int(input("Enter booking ID to remove: "))
+    booking_id_input = input("Enter booking ID to remove: ").strip()
+    try:
+        booking_id = int(booking_id_input)
+    except ValueError:
+        print("Invalid booking ID. Please enter a number.")
+        return
     system.remove_booking(booking_id)
 
-
 def view_bookings_on_date(system):
-    date = input("Enter date in the format of YYYY-MM-DD: ")
-    bookings = system.get_bookings_on_date(date)
+    date = input("Enter date in the format of YYYY-MM-DD: ").strip()
+    try:
+        bookings = system.get_bookings_on_date(date)
+    except ValueError:
+        print("Invalid date format. Use YYYY-MM-DD.")
+        return
     if not bookings:
         print(f"No bookings found on that date: {date}")
         return
@@ -109,13 +120,16 @@ def view_bookings_on_date(system):
     for i in bookings:
         print(f" {i} ")
 
-
 def view_bookings_in_range(system):
-    start_date = input("Enter the start date in the format YYYY-MM-DD: ")
-    start_time = input("Enter the start time HH:MM format: ")
-    end_date = input("Enter the start date in the format YYYY-MM-DD: ")
-    end_time = input("Enter the start time HH:MM format: ")
-    bookings = system.get_bookings_in_range(start_date, start_time, end_date, end_time)
+    start_date = input("Enter the start date in the format YYYY-MM-DD: ").strip()
+    start_time = input("Enter the start time in HH:MM format: ").strip()
+    end_date = input("Enter the end date in the format YYYY-MM-DD: ").strip()
+    end_time = input("Enter the end time in HH:MM format: ").strip()
+    try:
+        bookings = system.get_bookings_in_range(start_date, start_time, end_date, end_time)
+    except ValueError:
+        print("Invalid date or time format. Use YYYY-MM-DD and HH:MM.")
+        return
     if not bookings:
         print("No bookings found in that range.")
         return
@@ -124,9 +138,13 @@ def view_bookings_in_range(system):
         print(f" {i}")
 
 def view_next_upcoming(system):
-    date = input("Enter the start date in the format YYYY-MM-DD: ")
-    time = input("Enter the start time HH:MM format: ")
-    booking = system.next_upcoming(date, time)
+    date = input("Enter the start date in the format YYYY-MM-DD: ").strip()
+    time = input("Enter the start time in HH:MM format: ").strip()
+    try:
+        booking = system.next_upcoming(date, time)
+    except ValueError:
+        print("Invalid date or time format. Use YYYY-MM-DD and HH:MM.")
+        return
     if booking:
         print(f"\n Upcoming: {booking}")
     else:

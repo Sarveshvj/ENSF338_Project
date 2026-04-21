@@ -31,15 +31,29 @@ def shortest_path(campus):
 
 #-----------------------Service Queue-----------------------------------------------------------------
 def add_request(heap):
-    name = input("Enter requester name: ")
-    room = input("Enter room name: ")
+    name = input("Enter requester name: ").strip()
+    if not name:
+        print("Name cannot be empty.")
+        return
+    room = input("Enter room name: ").strip()
+    if not room:
+        print("Room cannot be empty.")
+        return
     print("Priority levels: 1 = Low, 2 = Standard, 3 = Emergency")
-    priority = int(input("Enter priority level (1-3): "))
-    description = input("Enter description or press Enter to skip: ") or None
+    priority_input = input("Enter priority level (1-3): ").strip()
+    try:
+        priority = int(priority_input)
+        if priority not in (1, 2, 3):
+            print("Priority must be 1, 2, or 3.")
+            return
+    except ValueError:
+        print("Invalid priority. Please enter 1, 2, or 3.")
+        return
+    description = input("Enter description or press Enter to skip: ").strip() or None
     
     request = Request(name, room, priority, description)
     heap.insert(request)
-    print(f"\nRequest #{request.id} added successfully!")
+    print(f"\nRequest #{request.id} added")
 
 def serve_request(heap):
     request = heap.getMaxPriority()

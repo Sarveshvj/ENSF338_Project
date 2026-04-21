@@ -6,6 +6,8 @@ from navigation_history import NavigationHistory
 
 from campusmap_pathnav import Campus
 
+from LookUp import LookupSystem, Building, Room
+
 #-----------------------Shortest Path-----------------------------------------------------------------
 def show_buildings(campus):
     campus.displayShortestPath(srcNode=None, destNode=None)
@@ -210,6 +212,47 @@ def navigate_to_location(nav_history, campus):
     nav_history.navigate(origin_id, dest_id)
     print(f"You are now at: {dest_id}")
 #----------------------------End of Navigation History-------------------------------------------
+#----------------------------Fast Lookup--------------------------------------------------
+
+def find_building_lookup(lookup):
+    building_id = input("Enter building ID: ")
+    result = lookup.get_building(building_id)
+    print(result)
+
+def find_room_lookup(lookup):
+    room_id = input("Enter room ID: ")
+    result = lookup.get_room(room_id)
+    print(result)
+
+def remove_building_lookup(lookup):
+    building_id = input("Enter building ID: ")
+    lookup.remove_building(building_id)
+    print("Building removed")
+
+def remove_room_lookup(lookup):
+    room_id = input("Enter room ID: ")
+    lookup.remove_room(room_id)
+    print("Room removed")
+
+def add_building_lookup(lookup):
+    building_id = input("Enter building ID: ")
+    name = input("Enter building name: ")
+    x = int(input("Enter x location: "))
+    y = int(input("Enter y location: "))
+    building = Building(building_id, name, (x, y))
+    lookup.add_building(building)
+    print("Building added")
+
+def add_room_lookup(lookup):
+    building_id = input("Enter building ID: ")
+    room_id = input("Enter room ID: ")
+    capacity = int(input("Enter capacity: "))
+    room_type = input("Enter room type: ")
+    room = Room(room_id, capacity, room_type)
+    lookup.add_room(building_id, room)
+    print("Room added")
+
+#----------------------------END Fast Lookup--------------------------------------------------
 
 
 def main():
@@ -217,6 +260,7 @@ def main():
     system= BookingSystem()
     nav_history = NavigationHistory()
     campus = Campus()
+    lookup = LookupSystem(campus)
     campus.fileImport("test.dot")
     while True:
         print("\n========== Campus Management System ==========")
@@ -308,8 +352,53 @@ def main():
                     print("Invalid choice.")
 
         elif choice == "5":
-            # 5 - Building and resource lookup 
-            pass
+            while True:
+                print("\nFast Building and Resource Lookup")
+                print("Add Building (1)")
+                print("Add Room (2)")
+                print("Find Building (3)")
+                print("Find Room (4)")
+                print("Remove Building (5)")
+                print("Remove Room (6)")
+                print("Back (7)")
+
+                sub_choice = input("\nEnter choice:")
+
+                if sub_choice == "1":
+                    building_id = input("Enter building ID:")
+                    name = input("Enter building name: ")
+                    x = int(input("Enter x location:"))
+                    y = int(input("Enter y location:"))
+                    building = Building(building_id, name, (x, y))
+                    lookup.add_building(building)
+                    print("Building added")
+
+                elif sub_choice == "2":
+                    building_id = input("Enter building ID: ")
+                    room_id = input("Enter room ID: ")
+                    capacity = int(input("Enter capacity: "))
+                    room_type = input("Enter room type: ")
+                    room = Room(room_id, capacity, room_type)
+                    lookup.add_room(building_id, room)
+                    print("Room added")
+
+                elif sub_choice == "3":
+                    find_building_lookup(lookup)
+
+                elif sub_choice == "4":
+                    find_room_lookup(lookup)
+
+                elif sub_choice == "5":
+                    remove_building_lookup(lookup)
+
+                elif sub_choice == "6":
+                    remove_room_lookup(lookup)
+
+                elif sub_choice == "7":
+                    break
+
+                else:
+                    print("Invalid choice.")
 
         elif choice == "6":
             from requestProcessing import simulate_pipeline

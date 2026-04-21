@@ -237,8 +237,12 @@ def remove_room_lookup(lookup):
 def add_building_lookup(lookup):
     building_id = input("Enter building ID: ")
     name = input("Enter building name: ")
-    x = int(input("Enter x location: "))
-    y = int(input("Enter y location: "))
+    try:
+        x = int(input("Enter x location: "))
+        y = int(input("Enter y location: "))
+    except ValueError:
+        print("Location must be a number.")
+        return
     building = Building(building_id, name, (x, y))
     lookup.add_building(building)
     print("Building added")
@@ -246,7 +250,11 @@ def add_building_lookup(lookup):
 def add_room_lookup(lookup):
     building_id = input("Enter building ID: ")
     room_id = input("Enter room ID: ")
-    capacity = int(input("Enter capacity: "))
+    try:
+        capacity = int(input("Enter capacity: "))
+    except ValueError:
+        print("Capacity must be a number.")
+        return
     room_type = input("Enter room type: ")
     room = Room(room_id, capacity, room_type)
     lookup.add_room(building_id, room)
@@ -270,6 +278,7 @@ def main():
         print("4. Priority-Based Service Queue")
         print("5. Fast Building and Resource Lookup")
         print("6. Incoming Request Processing")
+        print("7. Balanced Event Index")
         print("0. Exit")
         print("==============================================")
         choice = input("\nEnter choice: ")
@@ -365,22 +374,10 @@ def main():
                 sub_choice = input("\nEnter choice:")
 
                 if sub_choice == "1":
-                    building_id = input("Enter building ID:")
-                    name = input("Enter building name: ")
-                    x = int(input("Enter x location:"))
-                    y = int(input("Enter y location:"))
-                    building = Building(building_id, name, (x, y))
-                    lookup.add_building(building)
-                    print("Building added")
+                    add_building_lookup(lookup)
 
                 elif sub_choice == "2":
-                    building_id = input("Enter building ID: ")
-                    room_id = input("Enter room ID: ")
-                    capacity = int(input("Enter capacity: "))
-                    room_type = input("Enter room type: ")
-                    room = Room(room_id, capacity, room_type)
-                    lookup.add_room(building_id, room)
-                    print("Room added")
+                    add_room_lookup(lookup)
 
                 elif sub_choice == "3":
                     find_building_lookup(lookup)
@@ -403,6 +400,10 @@ def main():
         elif choice == "6":
             from requestProcessing import simulate_pipeline
             simulate_pipeline()
+
+        elif choice == "7":
+            from balancedEventIndex import simulate_avl
+            simulate_avl()
 
         elif choice == "0":
             print("Exiting")

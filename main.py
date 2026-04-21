@@ -11,8 +11,12 @@ def show_buildings(campus):
     campus.displayShortestPath(srcNode=None, destNode=None)
 
 def shortest_path(campus):
-    srcNodeId = input("\nEnter a source building: ")
-    destNodeId = input("\nEnter a destination building: ")
+    srcNodeId = input("\nEnter a source building: ").strip()
+    destNodeId = input("\nEnter a destination building: ").strip()
+
+    if not srcNodeId or not destNodeId:
+        print("Building ID cannot be empty.")
+        return
     srcNode = None
     destNode = None
     for building in campus.buildings:
@@ -176,25 +180,32 @@ def forward_navigation(nav_history):
 
 def navigate_to_location(nav_history, campus):
     if nav_history.current_origin is None:
-        origin_id = input("Enter origin building ID: ")
+        origin_id = input("Enter origin building ID: ").strip()
+        if not origin_id:
+            print("Building ID cannot be empty.")
+            return
     else:
         origin_id = nav_history.current_origin
         print(f"Navigating from current location: {origin_id}")
-    dest_id = input("Enter destination building ID: ")
+
+    dest_id = input("Enter destination building ID: ").strip()
+    if not dest_id:
+        print("Destination building ID cannot be empty.")
+        return
 
     origin_building = None
     dest_building = None
-    
+
     for building in campus.buildings:
         if building.building_id == origin_id:
             origin_building = building
         if building.building_id == dest_id:
             dest_building = building
-    
+
     if origin_building is None or dest_building is None:
-        print("Invalid building ID(s)")
+        print("Invalid building ID.")
         return
-    
+
     campus.displayShortestPath(origin_building, dest_building)
     nav_history.navigate(origin_id, dest_id)
     print(f"You are now at: {dest_id}")

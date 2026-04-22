@@ -13,8 +13,12 @@ def show_buildings(campus):
     campus.displayShortestPath(srcNode=None, destNode=None)
 
 def shortest_path(campus):
-    srcNodeId = input("\nEnter a source building: ")
-    destNodeId = input("\nEnter a destination building: ")
+    srcNodeId = input("\nEnter a source building: ").strip()
+    destNodeId = input("\nEnter a destination building: ").strip()
+
+    if not srcNodeId or not destNodeId:
+        print("Building ID cannot be empty.")
+        return
     srcNode = None
     destNode = None
     for building in campus.buildings:
@@ -33,15 +37,29 @@ def shortest_path(campus):
 
 #-----------------------Service Queue-----------------------------------------------------------------
 def add_request(heap):
-    name = input("Enter requester name: ")
-    room = input("Enter room name: ")
+    name = input("Enter requester name: ").strip()
+    if not name:
+        print("Name cannot be empty.")
+        return
+    room = input("Enter room name: ").strip()
+    if not room:
+        print("Room cannot be empty.")
+        return
     print("Priority levels: 1 = Low, 2 = Standard, 3 = Emergency")
-    priority = int(input("Enter priority level (1-3): "))
-    description = input("Enter description or press Enter to skip: ") or None
+    priority_input = input("Enter priority level (1-3): ").strip()
+    try:
+        priority = int(priority_input)
+        if priority not in (1, 2, 3):
+            print("Priority must be 1, 2, or 3.")
+            return
+    except ValueError:
+        print("Invalid priority. Please enter 1, 2, or 3.")
+        return
+    description = input("Enter description or press Enter to skip: ").strip() or None
     
     request = Request(name, room, priority, description)
     heap.insert(request)
-    print(f"\nRequest #{request.id} added successfully!")
+    print(f"\nRequest #{request.id} added")
 
 def serve_request(heap):
     request = heap.getMaxPriority()
@@ -72,24 +90,35 @@ def view_queue(heap):
 
 
 def add_booking(system):
-    room_id = input("Enter room ID: ")
-    date = input("Enter date in the format of YYYY-MM-DD: ")
-    start_time = input("Enter start time in HH:MM format: ")
-    end_time = input("Enter end time in HH:MM format: ")
-    event_name = input("Enter event name: ")
-    
-    booking = system.add_booking(room_id, date, start_time, end_time, event_name)
-    if booking:
-        print(f"\nBooking #{booking.booking_id} added")
+    room_id = input("Enter room ID: ").strip()
+    date = input("Enter date in the format of YYYY-MM-DD: ").strip()
+    start_time = input("Enter start time in HH:MM format: ").strip()
+    end_time = input("Enter end time in HH:MM format: ").strip()
+    event_name = input("Enter event name: ").strip()
+
+    try:
+        booking = system.add_booking(room_id, date, start_time, end_time, event_name)
+        if booking:
+            print(f"\nBooking #{booking.booking_id} added")
+    except ValueError:
+        print("Invalid date or time format. Use YYYY-MM-DD and HH:MM.")
 
 def remove_booking(system):
-    booking_id = int(input("Enter booking ID to remove: "))
+    booking_id_input = input("Enter booking ID to remove: ").strip()
+    try:
+        booking_id = int(booking_id_input)
+    except ValueError:
+        print("Invalid booking ID. Please enter a number.")
+        return
     system.remove_booking(booking_id)
 
-
 def view_bookings_on_date(system):
-    date = input("Enter date in the format of YYYY-MM-DD: ")
-    bookings = system.get_bookings_on_date(date)
+    date = input("Enter date in the format of YYYY-MM-DD: ").strip()
+    try:
+        bookings = system.get_bookings_on_date(date)
+    except ValueError:
+        print("Invalid date format. Use YYYY-MM-DD.")
+        return
     if not bookings:
         print(f"No bookings found on that date: {date}")
         return
@@ -97,13 +126,16 @@ def view_bookings_on_date(system):
     for i in bookings:
         print(f" {i} ")
 
-
 def view_bookings_in_range(system):
-    start_date = input("Enter the start date in the format YYYY-MM-DD: ")
-    start_time = input("Enter the start time HH:MM format: ")
-    end_date = input("Enter the start date in the format YYYY-MM-DD: ")
-    end_time = input("Enter the start time HH:MM format: ")
-    bookings = system.get_bookings_in_range(start_date, start_time, end_date, end_time)
+    start_date = input("Enter the start date in the format YYYY-MM-DD: ").strip()
+    start_time = input("Enter the start time in HH:MM format: ").strip()
+    end_date = input("Enter the end date in the format YYYY-MM-DD: ").strip()
+    end_time = input("Enter the end time in HH:MM format: ").strip()
+    try:
+        bookings = system.get_bookings_in_range(start_date, start_time, end_date, end_time)
+    except ValueError:
+        print("Invalid date or time format. Use YYYY-MM-DD and HH:MM.")
+        return
     if not bookings:
         print("No bookings found in that range.")
         return
@@ -112,9 +144,13 @@ def view_bookings_in_range(system):
         print(f" {i}")
 
 def view_next_upcoming(system):
-    date = input("Enter the start date in the format YYYY-MM-DD: ")
-    time = input("Enter the start time HH:MM format: ")
-    booking = system.next_upcoming(date, time)
+    date = input("Enter the start date in the format YYYY-MM-DD: ").strip()
+    time = input("Enter the start time in HH:MM format: ").strip()
+    try:
+        booking = system.next_upcoming(date, time)
+    except ValueError:
+        print("Invalid date or time format. Use YYYY-MM-DD and HH:MM.")
+        return
     if booking:
         print(f"\n Upcoming: {booking}")
     else:
@@ -146,25 +182,32 @@ def forward_navigation(nav_history):
 
 def navigate_to_location(nav_history, campus):
     if nav_history.current_origin is None:
-        origin_id = input("Enter origin building ID: ")
+        origin_id = input("Enter origin building ID: ").strip()
+        if not origin_id:
+            print("Building ID cannot be empty.")
+            return
     else:
         origin_id = nav_history.current_origin
         print(f"Navigating from current location: {origin_id}")
-    dest_id = input("Enter destination building ID: ")
+
+    dest_id = input("Enter destination building ID: ").strip()
+    if not dest_id:
+        print("Destination building ID cannot be empty.")
+        return
 
     origin_building = None
     dest_building = None
-    
+
     for building in campus.buildings:
         if building.building_id == origin_id:
             origin_building = building
         if building.building_id == dest_id:
             dest_building = building
-    
+
     if origin_building is None or dest_building is None:
-        print("Invalid building ID(s)")
+        print("Invalid building ID.")
         return
-    
+
     campus.displayShortestPath(origin_building, dest_building)
     nav_history.navigate(origin_id, dest_id)
     print(f"You are now at: {dest_id}")
@@ -194,8 +237,12 @@ def remove_room_lookup(lookup):
 def add_building_lookup(lookup):
     building_id = input("Enter building ID: ")
     name = input("Enter building name: ")
-    x = int(input("Enter x location: "))
-    y = int(input("Enter y location: "))
+    try:
+        x = int(input("Enter x location: "))
+        y = int(input("Enter y location: "))
+    except ValueError:
+        print("Location must be a number.")
+        return
     building = Building(building_id, name, (x, y))
     lookup.add_building(building)
     print("Building added")
@@ -203,7 +250,11 @@ def add_building_lookup(lookup):
 def add_room_lookup(lookup):
     building_id = input("Enter building ID: ")
     room_id = input("Enter room ID: ")
-    capacity = int(input("Enter capacity: "))
+    try:
+        capacity = int(input("Enter capacity: "))
+    except ValueError:
+        print("Capacity must be a number.")
+        return
     room_type = input("Enter room type: ")
     room = Room(room_id, capacity, room_type)
     lookup.add_room(building_id, room)
@@ -227,6 +278,7 @@ def main():
         print("4. Priority-Based Service Queue")
         print("5. Fast Building and Resource Lookup")
         print("6. Incoming Request Processing")
+        print("7. Balanced Event Index")
         print("0. Exit")
         print("==============================================")
         choice = input("\nEnter choice: ")
@@ -322,22 +374,10 @@ def main():
                 sub_choice = input("\nEnter choice:")
 
                 if sub_choice == "1":
-                    building_id = input("Enter building ID:")
-                    name = input("Enter building name: ")
-                    x = int(input("Enter x location:"))
-                    y = int(input("Enter y location:"))
-                    building = Building(building_id, name, (x, y))
-                    lookup.add_building(building)
-                    print("Building added")
+                    add_building_lookup(lookup)
 
                 elif sub_choice == "2":
-                    building_id = input("Enter building ID: ")
-                    room_id = input("Enter room ID: ")
-                    capacity = int(input("Enter capacity: "))
-                    room_type = input("Enter room type: ")
-                    room = Room(room_id, capacity, room_type)
-                    lookup.add_room(building_id, room)
-                    print("Room added")
+                    add_room_lookup(lookup)
 
                 elif sub_choice == "3":
                     find_building_lookup(lookup)
@@ -360,6 +400,10 @@ def main():
         elif choice == "6":
             from requestProcessing import simulate_pipeline
             simulate_pipeline()
+
+        elif choice == "7":
+            from balancedEventIndex import simulate_avl
+            simulate_avl()
 
         elif choice == "0":
             print("Exiting")
